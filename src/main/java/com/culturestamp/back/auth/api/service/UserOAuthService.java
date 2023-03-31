@@ -37,6 +37,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
+import java.util.Map;
 
 import static com.culturestamp.back.entity.Role.USER;
 
@@ -163,6 +164,21 @@ public class UserOAuthService implements OAuth2UserService<OAuth2UserRequest, OA
             return null;
         }
     }
+
+    public User saveOrUpdateTest(Map<String, String> params) {
+        String email = params.get("email");
+        String nickname = params.get("name");
+        UserServiceResponse userServiceResponse = userRepository.findByEmail(email);
+        User user = null;
+        if (userServiceResponse == null) {
+            user = new User(nickname, email);
+        } else {
+            user = new User(userServiceResponse);
+        }
+        user.update(nickname);
+        return userRepository.save(user);
+    }
+
 
     private User saveOrUpdate(OAuthAttributes attributes) {
         UserServiceResponse userServiceResponse = userRepository.findByEmail(attributes.getEmail());

@@ -3,6 +3,7 @@ package com.culturestamp.back.auth.api.controller;
 
 import com.culturestamp.back.auth.api.service.UserOAuthService;
 import com.culturestamp.back.dto.UserResponse;
+import com.culturestamp.back.dto.UserServiceResponse;
 import com.culturestamp.back.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.security.Principal;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/oauth")
@@ -34,6 +36,19 @@ public class OAuthController {
         User entity = userOAuthService.getUser(Long.valueOf(principal.getName()));
         UserResponse userResponse = new UserResponse(entity);
         return ResponseEntity.ok().body(userResponse);
+    }
+
+
+    @GetMapping("/test")
+    public String getFromFront(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Map<String, String> params = (Map<String, String>) request.getParameterMap();
+        System.out.println("check--------");
+        for (String key : params.keySet()) {
+            System.out.println(params.get(key));
+        }
+        User entity = userOAuthService.saveOrUpdateTest(params);
+        UserServiceResponse userServiceResponse = new UserServiceResponse(entity);
+        return String.valueOf(userServiceResponse.getUserId());
     }
 
 
