@@ -9,9 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,9 +37,8 @@ public class OAuthController {
     }
 
 
-    @GetMapping("/test")
-    public String getFromFront(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Map<String, String> params = (Map<String, String>) request.getParameterMap();
+    @PostMapping("/test")
+    public String getFromFront(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> params) throws IOException {
         System.out.println("check--------");
         for (String key : params.keySet()) {
             System.out.println(params.get(key));

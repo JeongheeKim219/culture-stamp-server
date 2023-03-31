@@ -80,6 +80,7 @@ public class User extends BaseTimeEntity implements Serializable {
     public User(String nickname, String email) {
         this.nickname = nickname;
         this.email = email;
+        this.role = Role.USER;
     }
 
 
